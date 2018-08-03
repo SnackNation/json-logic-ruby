@@ -1,3 +1,5 @@
+require 'dig_rb'
+
 class Hash
   def deep_fetch(key, default = nil)
     keys = key.to_s.split('.')
