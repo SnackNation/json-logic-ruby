@@ -16,7 +16,7 @@ class JSONLogicTest < Minitest::Test
     define_method("test_#{count}") do
       result = JSONLogic.apply(pattern[0], pattern[1])
       msg = "#{pattern[0].to_json} (data: #{pattern[1].to_json})"
-      assert_equal(pattern[2], result, msg)
+      assert_equal_or_nil(pattern[2], result, msg)
     end
     count += 1
   end
@@ -33,5 +33,17 @@ class JSONLogicTest < Minitest::Test
     rules = JSON.parse(%Q|{"fives": {"var": "num"}}|)
     data = JSON.parse(%Q|{"num": 1}|)
     assert_equal([6], JSONLogic.apply(rules, data))
+  end
+
+  private
+
+  # Take care of "DEPRECATED: Use assert_nil if expecting nil" warning.
+  # https://github.com/seattlerb/minitest/issues/666
+  def assert_equal_or_nil(expected, *args)
+    if expected.nil?
+      assert_nil(*args)
+    else
+      assert_equal(expected, *args)
+    end
   end
 end
