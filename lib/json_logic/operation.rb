@@ -53,7 +53,7 @@ module JSONLogic
       end,
       'reduce' => -> (v,d) do
         return v[2] unless v[0].is_a?(Array)
-        v[0].inject(v[2]) { |acc, val| interpolated_block(v[1], { "current": val, "accumulator": acc })}
+        v[0].inject(v[2]) { |acc, val| interpolated_block(v[1], { "current" => val, "accumulator" => acc })}
       end,
       'map' => -> (v,d) do
         return [] unless v[0].is_a?(Array)
@@ -98,7 +98,7 @@ module JSONLogic
 
     def self.interpolated_block(block, data)
       # Make sure the empty var is there to be used in iterator
-      JSONLogic.apply(block, data.is_a?(Hash) ? data.merge({"": data}) : { "": data })
+      JSONLogic.apply(block, data.is_a?(Hash) ? data.merge({"" => data}) : { "" => data })
     end
 
     def self.perform(operator, values, data)
